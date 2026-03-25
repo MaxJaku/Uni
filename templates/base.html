@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or 'Wartungssoftware' }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Wartungssoftware MVP</h1>
+    {% if session.user_id %}
+      <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('customers') }}">Kunden</a>
+        <a href="{{ url_for('assets') }}">Anlagen</a>
+        <a href="{{ url_for('protocols') }}">Protokolle</a>
+        <a href="{{ url_for('protocol_new') }}">Neues Protokoll</a>
+        <a href="{{ url_for('logout') }}">Logout ({{ session.user_name }})</a>
+      </nav>
+    {% endif %}
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

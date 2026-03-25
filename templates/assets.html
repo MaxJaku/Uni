@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Anlagen</h2>
+<section class="card">
+  <h3>Neue Anlage</h3>
+  <form method="post" class="grid">
+    <label>Kunde
+      <select name="customer_id" required>
+        {% for c in customers %}
+          <option value="{{ c.id }}">{{ c.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Anlagennummer <input name="asset_number" required></label>
+    <label>Standort <input name="location"></label>
+    <label>Typ <input name="asset_type"></label>
+    <label>Hersteller <input name="manufacturer"></label>
+    <label>Modell <input name="model"></label>
+    <label>Inbetriebnahme <input type="date" name="commissioning_date"></label>
+    <label>Intervall (Monate) <input type="number" name="maintenance_interval_months" value="3" min="1" required></label>
+    <label>Letzte reguläre Wartung <input type="date" name="last_regular_maintenance_at"></label>
+    <label>Status
+      <select name="status"><option value="aktiv">aktiv</option><option value="inaktiv">inaktiv</option></select>
+    </label>
+    <button type="submit">Speichern</button>
+  </form>
+</section>
+
+<section class="card">
+  <h3>Bestand</h3>
+  <table>
+    <thead><tr><th>Kunde</th><th>Anlage</th><th>Status</th><th>Letzte Wartung</th><th>Nächste Wartung</th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.customer_name }}</td>
+        <td>{{ row.asset_number }}</td>
+        <td>{{ row.status }}</td>
+        <td>{{ row.last_regular_maintenance_at or '-' }}</td>
+        <td>{{ row.next_maintenance_at or '-' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5">Keine Anlagen vorhanden.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

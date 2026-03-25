@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard</h2>
+<div class="stats">
+  <div class="stat"><strong>{{ stats.due_today }}</strong><span>Heute fällig</span></div>
+  <div class="stat"><strong>{{ stats.overdue }}</strong><span>Überfällig</span></div>
+  <div class="stat"><strong>{{ stats.completed_today }}</strong><span>Heute abgeschlossen</span></div>
+  <div class="stat"><strong>{{ stats.due_week }}</strong><span>Diese Woche fällig</span></div>
+</div>
+
+<section class="card">
+  <h3>Wartungen (heute + 7 Tage)</h3>
+  <table>
+    <thead>
+      <tr><th>Fällig</th><th>Kunde</th><th>Anlage</th><th>Ort</th><th>Status</th><th>Aktion</th></tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.due_date }}</td>
+        <td>{{ row.customer_name }}</td>
+        <td>{{ row.asset_number }}</td>
+        <td>{{ row.location }}</td>
+        <td>{{ row.status }}</td>
+        <td><a href="{{ url_for('protocol_new') }}?planned_id={{ row.id }}">Protokoll starten</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6">Keine Vorgänge vorhanden.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Protokollhistorie</h2>
+<section class="card">
+  <table>
+    <thead><tr><th>Datum</th><th>Kunde</th><th>Anlage</th><th>Typ</th><th>Regulär</th><th>Benutzer</th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.protocol_date }}</td>
+        <td>{{ row.customer_name }}</td>
+        <td>{{ row.asset_number }}</td>
+        <td>{{ row.protocol_type }}</td>
+        <td>{{ 'Ja' if row.counts_as_regular else 'Nein' }}</td>
+        <td>{{ row.user_name }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6">Noch keine Protokolle vorhanden.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
