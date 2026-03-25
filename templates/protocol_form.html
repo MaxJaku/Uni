@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Neues Wartungsprotokoll</h2>
+<section class="card">
+  {% if planned %}
+    <p>Aus geplanter Wartung: <strong>{{ planned.customer_name }} / {{ planned.asset_number }}</strong> (fällig {{ planned.due_date }})</p>
+  {% endif %}
+  <form method="post" class="grid">
+    <input type="hidden" name="planned_maintenance_id" value="{{ planned.id if planned else '' }}">
+
+    <label>Anlage
+      <select name="asset_id" required>
+        {% for a in assets %}
+          <option value="{{ a.id }}" {% if selected_asset_id and selected_asset_id|int == a.id %}selected{% endif %}>{{ a.customer_name }} / {{ a.asset_number }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label>Datum <input type="date" name="protocol_date" value="{{ today }}" required></label>
+    <label>Protokolltyp
+      <select name="protocol_type">
+        <option value="regulaere_wartung">Reguläre Wartung</option>
+        <option value="zusatzwartung">Zusatzwartung</option>
+        <option value="nachkontrolle">Nachkontrolle</option>
+        <option value="sonderprotokoll">Sonderprotokoll</option>
+      </select>
+    </label>
+
+    <label>Zählt als reguläre Wartung?
+      <select name="counts_as_regular">
+        <option value="1">Ja</option>
+        <option value="0">Nein</option>
+      </select>
+    </label>
+
+    <label>Checkliste <textarea name="checklist" placeholder="z.B. Sichtprüfung, Filter, Pumpentest"></textarea></label>
+    <label>Messwerte <textarea name="measurements" placeholder="pH=..., Füllstand=..."></textarea></label>
+    <label>Beobachtungen <textarea name="findings"></textarea></label>
+    <label>Mängel <textarea name="defects"></textarea></label>
+    <label>Empfehlung <textarea name="recommendation"></textarea></label>
+
+    <label>Abschlussstatus
+      <select name="completion_status">
+        <option value="abgeschlossen">abgeschlossen</option>
+        <option value="teilweise">teilweise</option>
+        <option value="abgebrochen">abgebrochen</option>
+      </select>
+    </label>
+
+    <button type="submit">Protokoll speichern</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <h2>Login</h2>
+  <p>Demo-Zugang: <code>admin@example.com</code> / <code>admin123</code></p>
+  <form method="post">
+    <label>E-Mail <input type="email" name="email" required></label>
+    <label>Passwort <input type="password" name="password" required></label>
+    <button type="submit">Anmelden</button>
+  </form>
+</section>
+{% endblock %}
